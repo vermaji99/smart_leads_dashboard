@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import rateLimit from 'express-rate-limit';
+import compression from 'compression';
 import connectDB from './config/db';
 import authRoutes from './routes/authRoutes';
 import leadRoutes from './modules/leads/lead.routes';
@@ -25,16 +26,26 @@ app.use(cors({
   credentials: true,
 }));
 app.use(express.json());
+app.use(compression());
 app.use(cookieParser());
 app.use(morgan('dev'));
 
-// Rate Limiting disabled for development
-// const limiter = rateLimit({
-//   windowMs: 1 * 60 * 1000, // 1 minute
-//   max: 5000, // Very high for development
-//   message: 'Too many requests from this IP, please try again after 1 minute',
-// });
-// app.use('/api/', limiter);
+// Health Check
+app.get('/health', (req, res) => {
+  res.status(200).json({ success: true, message: 'Server running' });
+});
+
+// Rate Limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP, please try again after 15 minutes',
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+if (process.env.NODE_ENV === 'production') {
+  app.use('/api/', limiter);
+}
 
 // Routes
 app.use('/api/v1/auth', authRoutes);
@@ -47,6 +58,18 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+});
+
+// Graceful Shutdown
+process.on('SIGTERM', () => {
+  console.log('SIGTERM signal received: closing HTTP server');
+  server.close(() => {
+    console.log('HTTP server closed');
+    import('mongoose').then(m => m.connection.close(false)).then(() => {
+      console.log('MongoDB connection closed');
+      process.exit(0);
+    });
+  });
 });

@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: smart-leads-backend
+    env: docker
+    region: oregon
+    plan: free
+    rootDir: backend
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_URI
+        fromConfig: MONGODB_URI
+      - key: ACCESS_TOKEN_SECRET
+        fromConfig: ACCESS_TOKEN_SECRET
+      - key: REFRESH_TOKEN_SECRET
+        fromConfig: REFRESH_TOKEN_SECRET
+      - key: FRONTEND_URL
+        fromConfig: FRONTEND_URL
+    healthCheckPath: /health
