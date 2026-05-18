@@ -70,7 +70,7 @@ class LeadController {
   });
 
   getLeadById = asyncHandler(async (req: AuthRequest, res: Response) => {
-    const lead = await leadService.getLeadById(req.params.id, req.user as IUser);
+    const lead = await leadService.getLeadById(req.params.id as string, req.user as IUser);
     return res.status(200).json(new ApiResponse(200, lead, 'Lead fetched successfully'));
   });
 
@@ -80,12 +80,12 @@ class LeadController {
   });
 
   updateLead = asyncHandler(async (req: AuthRequest, res: Response) => {
-    const lead = await leadService.updateLead(req.params.id, req.body, req.user as IUser);
+    const lead = await leadService.updateLead(req.params.id as string, req.body, req.user as IUser);
     return res.status(200).json(new ApiResponse(200, lead, 'Lead updated successfully'));
   });
 
   deleteLead = asyncHandler(async (req: AuthRequest, res: Response) => {
-    await leadService.deleteLead(req.params.id, req.user as IUser);
+    await leadService.deleteLead(req.params.id as string, req.user as IUser);
     return res.status(200).json(new ApiResponse(200, {}, 'Lead deleted successfully'));
   });
 }
