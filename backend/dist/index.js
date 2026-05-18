@@ -1,4 +1,37 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -9,9 +42,11 @@ const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
 const morgan_1 = __importDefault(require("morgan"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
+const compression_1 = __importDefault(require("compression"));
 const db_1 = __importDefault(require("./config/db"));
 const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
-const leadRoutes_1 = __importDefault(require("./routes/leadRoutes"));
+const lead_routes_1 = __importDefault(require("./modules/leads/lead.routes"));
 const analyticsRoutes_1 = __importDefault(require("./routes/analyticsRoutes"));
 const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 const errorMiddleware_1 = __importDefault(require("./middleware/errorMiddleware"));
@@ -25,23 +60,43 @@ app.use((0, cors_1.default)({
     credentials: true,
 }));
 app.use(express_1.default.json());
+app.use((0, compression_1.default)());
 app.use((0, cookie_parser_1.default)());
 app.use((0, morgan_1.default)('dev'));
-// Rate Limiting disabled for development
-// const limiter = rateLimit({
-//   windowMs: 1 * 60 * 1000, // 1 minute
-//   max: 5000, // Very high for development
-//   message: 'Too many requests from this IP, please try again after 1 minute',
-// });
-// app.use('/api/', limiter);
+// Health Check
+app.get('/health', (req, res) => {
+    res.status(200).json({ success: true, message: 'Server running' });
+});
+// Rate Limiting
+const limiter = (0, express_rate_limit_1.default)({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+    message: 'Too many requests from this IP, please try again after 15 minutes',
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+if (process.env.NODE_ENV === 'production') {
+    app.use('/api/', limiter);
+}
 // Routes
 app.use('/api/v1/auth', authRoutes_1.default);
-app.use('/api/v1/leads', leadRoutes_1.default);
+app.use('/api/v1/leads', lead_routes_1.default);
 app.use('/api/v1/analytics', analyticsRoutes_1.default);
 app.use('/api/v1/users', userRoutes_1.default);
 // Error Handling
 app.use(errorMiddleware_1.default);
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+});
+// Graceful Shutdown
+process.on('SIGTERM', () => {
+    console.log('SIGTERM signal received: closing HTTP server');
+    server.close(() => {
+        console.log('HTTP server closed');
+        Promise.resolve().then(() => __importStar(require('mongoose'))).then(m => m.connection.close(false)).then(() => {
+            console.log('MongoDB connection closed');
+            process.exit(0);
+        });
+    });
 });

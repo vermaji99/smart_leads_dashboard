@@ -1,15 +1,19 @@
-export enum LeadStatus {
-  NEW = 'New',
-  CONTACTED = 'Contacted',
-  QUALIFIED = 'Qualified',
-  LOST = 'Lost',
-}
+export const LeadStatus = {
+  NEW: 'New',
+  CONTACTED: 'Contacted',
+  QUALIFIED: 'Qualified',
+  LOST: 'Lost',
+} as const;
 
-export enum LeadSource {
-  WEBSITE = 'Website',
-  INSTAGRAM = 'Instagram',
-  REFERRAL = 'Referral',
-}
+export type LeadStatus = (typeof LeadStatus)[keyof typeof LeadStatus];
+
+export const LeadSource = {
+  WEBSITE: 'Website',
+  INSTAGRAM: 'Instagram',
+  REFERRAL: 'Referral',
+} as const;
+
+export type LeadSource = (typeof LeadSource)[keyof typeof LeadSource];
 
 export type ILead = {
   _id: string;

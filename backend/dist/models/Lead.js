@@ -33,21 +33,8 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LeadSource = exports.LeadStatus = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
-var LeadStatus;
-(function (LeadStatus) {
-    LeadStatus["NEW"] = "New";
-    LeadStatus["CONTACTED"] = "Contacted";
-    LeadStatus["QUALIFIED"] = "Qualified";
-    LeadStatus["LOST"] = "Lost";
-})(LeadStatus || (exports.LeadStatus = LeadStatus = {}));
-var LeadSource;
-(function (LeadSource) {
-    LeadSource["WEBSITE"] = "Website";
-    LeadSource["INSTAGRAM"] = "Instagram";
-    LeadSource["REFERRAL"] = "Referral";
-})(LeadSource || (exports.LeadSource = LeadSource = {}));
+const enums_1 = require("../constants/enums");
 const leadSchema = new mongoose_1.Schema({
     name: { type: String, required: true, trim: true },
     email: { type: String, required: true, trim: true, lowercase: true },
@@ -55,12 +42,12 @@ const leadSchema = new mongoose_1.Schema({
     company: { type: String, required: true, trim: true },
     status: {
         type: String,
-        enum: Object.values(LeadStatus),
-        default: LeadStatus.NEW,
+        enum: Object.values(enums_1.LeadStatus),
+        default: enums_1.LeadStatus.NEW,
     },
     source: {
         type: String,
-        enum: Object.values(LeadSource),
+        enum: Object.values(enums_1.LeadSource),
         required: true,
     },
     notes: { type: String },

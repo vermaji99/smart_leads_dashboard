@@ -2,9 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 import api from '../services/api';
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  PieChart, Pie, Cell, LineChart, Line, AreaChart, Area
+  PieChart, Pie, Cell, AreaChart, Area
 } from 'recharts';
-import { Users, UserCheck, UserX, TrendingUp, DollarSign } from 'lucide-react';
+import { Users, UserCheck, UserX, TrendingUp } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useThemeStore } from '../store/useThemeStore';
 import type { IAnalyticsStats } from '../types/leads.types';
