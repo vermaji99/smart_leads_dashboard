@@ -29,23 +29,28 @@ const allowedOrigins = [
   'http://localhost:5175',
   'http://localhost:5176',
   'https://smart-leads-dashboard-pp33.onrender.com',
-  'https://smart-leads-dashboard-frontend.vercel.app' // Optional but good for future
+  'https://smart-leads-dashboard-frontend.vercel.app'
 ];
 
 app.use(cors({
-  origin: (origin, callback) => {
+  origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     
-    if (allowedOrigins.indexOf(origin) !== -1 || process.env.FRONTEND_URL === origin) {
+    // Check if the origin is allowed or if it matches the FRONTEND_URL env var
+    const isAllowed = allowedOrigins.includes(origin) || (process.env.FRONTEND_URL && process.env.FRONTEND_URL === origin);
+    
+    if (isAllowed) {
       callback(null, true);
     } else {
+      console.warn(`CORS blocked request from origin: ${origin}`);
       callback(new Error('Not allowed by CORS'));
     }
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+  exposedHeaders: ['Set-Cookie']
 }));
 
 app.use(express.json());
@@ -83,6 +88,7 @@ const PORT = process.env.PORT || 5000;
 
 const server = app.listen(PORT, () => {
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+  console.log(`Allowed CORS Origins: ${allowedOrigins.join(', ')}`);
 });
 
 // Graceful Shutdown
