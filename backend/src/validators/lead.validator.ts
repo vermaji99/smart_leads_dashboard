@@ -27,5 +27,7 @@ export const updateLeadSchema = z.object({
     source: z.nativeEnum(LeadSource).optional(),
     notes: z.string().optional(),
     assignedTo: z.string().optional(),
-  }).min(1, 'At least one field must be provided for update'),
+  }).refine((data) => Object.keys(data).length > 0, {
+    message: 'At least one field must be provided for update',
+  }),
 });

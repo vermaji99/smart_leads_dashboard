@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
-import User, { UserRole } from '../models/User';
+import User from '../models/User';
+import { UserRole } from '../constants/enums';
 import authService from '../services/authService';
 import asyncHandler from '../utils/asyncHandler';
 import ApiResponse from '../utils/ApiResponse';

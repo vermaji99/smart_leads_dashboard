@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { Parser } from 'json2csv';
 import Lead, { ILead } from '../models/Lead';
-import { AuthRequest } from '../middleware/authMiddleware';
+import { AuthRequest } from '../interfaces/auth.interface';
 import asyncHandler from '../utils/asyncHandler';
 import ApiResponse from '../utils/ApiResponse';
 import ApiError from '../utils/ApiError';

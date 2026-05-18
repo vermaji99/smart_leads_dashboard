@@ -1,5 +1,6 @@
 import { Response } from 'express';
-import Lead, { LeadStatus } from '../models/Lead';
+import Lead from '../models/Lead';
+import { LeadStatus } from '../constants/enums';
 import asyncHandler from '../utils/asyncHandler';
 import ApiResponse from '../utils/ApiResponse';
 

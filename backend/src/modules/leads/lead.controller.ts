@@ -27,20 +27,20 @@ class LeadController {
     const filter = {
       status: status as LeadStatus,
       source: source as LeadSource,
-      search: search as string,
-      assignedTo: assignedTo as string,
-      startDate: startDate as string,
-      endDate: endDate as string
+      search: String(search || ''),
+      assignedTo: String(assignedTo || ''),
+      startDate: String(startDate || ''),
+      endDate: String(endDate || '')
     };
 
     const sort = {
-      sortBy: sortBy as string,
+      sortBy: String(sortBy || 'createdAt'),
       order: (order as 'asc' | 'desc') || 'desc'
     };
 
     const pagination = {
-      page: parseInt(page as string || '1'),
-      limit: parseInt(limit as string || '10')
+      page: parseInt(String(page || '1')),
+      limit: parseInt(String(limit || '10'))
     };
 
     if (isExport === 'true') {
