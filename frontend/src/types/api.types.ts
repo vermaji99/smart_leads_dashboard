@@ -1,11 +1,11 @@
-export interface IUser {
+export type IUser = {
   _id: string;
   name: string;
   email: string;
   role: 'Admin' | 'Sales User';
 }
 
-export interface IPaginationMeta {
+export type IPaginationMeta = {
   page: number;
   limit: number;
   total: number;
@@ -14,7 +14,7 @@ export interface IPaginationMeta {
   hasPrevPage: boolean;
 }
 
-export interface IApiResponse<T> {
+export type IApiResponse<T> = {
   success: boolean;
   message: string;
   data: T;

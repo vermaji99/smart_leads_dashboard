@@ -11,7 +11,7 @@ export enum LeadSource {
   REFERRAL = 'Referral',
 }
 
-export interface ILead {
+export type ILead = {
   _id: string;
   name: string;
   email: string;
@@ -34,7 +34,7 @@ export interface ILead {
   updatedAt: string;
 }
 
-export interface IAnalyticsStats {
+export type IAnalyticsStats = {
   totalLeads: number;
   conversionRate: number;
   statusStats: Array<{ _id: string; count: number }>;

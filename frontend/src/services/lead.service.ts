@@ -1,6 +1,6 @@
 import api from '../services/api';
-import { ILead } from '../types/lead.types';
-import { IApiResponse } from '../types/api.types';
+import type { ILead } from '../types/leads.types';
+import type { IApiResponse } from '../types/api.types';
 
 export interface ILeadParams {
   search?: string;

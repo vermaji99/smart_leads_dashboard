@@ -1,4 +1,4 @@
-import { LeadStatus } from '../types/lead.types';
+import { LeadStatus } from '../types/leads.types';
 
 export const STATUS_COLORS: Record<LeadStatus, string> = {
   [LeadStatus.NEW]: 'blue',

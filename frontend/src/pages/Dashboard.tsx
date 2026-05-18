@@ -7,7 +7,7 @@ import {
 import { Users, UserCheck, UserX, TrendingUp, DollarSign } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useThemeStore } from '../store/useThemeStore';
-import { IAnalyticsStats } from '../types/lead.types';
+import type { IAnalyticsStats } from '../types/leads.types';
 
 const Dashboard = () => {
   const { isDarkMode } = useThemeStore();
@@ -47,28 +47,33 @@ const Dashboard = () => {
         <p className="text-slate-500 text-sm">Real-time performance metrics and insights</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         {statCards.map((stat, i) => (
-          <div key={i} className="glass p-6 rounded-2xl flex items-center space-x-4 group hover:scale-[1.02] transition-transform duration-300">
-            <div className={clsx('w-12 h-12 rounded-2xl flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-300', stat.bg)}>
+          <div key={i} className="glass p-4 md:p-6 rounded-2xl flex items-center space-x-4 group hover:scale-[1.02] transition-transform duration-300">
+            <div className={clsx('w-10 h-10 md:w-12 md:h-12 rounded-2xl flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-300 flex-shrink-0', stat.bg)}>
               <stat.icon className={stat.color} size={24} />
             </div>
-            <div>
-              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">{stat.label}</p>
-              <h3 className="text-2xl font-bold text-slate-900 dark:text-white">{stat.value}</h3>
+            <div className="min-w-0">
+              <p className="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-wider truncate">{stat.label}</p>
+              <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white truncate">{stat.value}</h3>
             </div>
           </div>
         ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="glass p-6 rounded-2xl h-96">
+        <div className="glass p-4 md:p-6 rounded-2xl h-[350px] md:h-96">
           <h3 className="text-lg font-semibold mb-6">Leads by Status</h3>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={stats.statusStats}>
               <CartesianGrid strokeDasharray="3 3" stroke={gridColor} vertical={false} />
-              <XAxis dataKey="_id" tick={{ fill: chartTextColor }} axisLine={{ stroke: gridColor }} />
-              <YAxis tick={{ fill: chartTextColor }} axisLine={{ stroke: gridColor }} />
+              <XAxis 
+                dataKey="_id" 
+                tick={{ fill: chartTextColor, fontSize: 12 }} 
+                axisLine={{ stroke: gridColor }}
+                interval={0}
+              />
+              <YAxis tick={{ fill: chartTextColor, fontSize: 12 }} axisLine={{ stroke: gridColor }} />
               <Tooltip 
                 contentStyle={{ 
                   backgroundColor: isDarkMode ? '#1e293b' : '#ffffff',
@@ -82,7 +87,7 @@ const Dashboard = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className="glass p-6 rounded-2xl h-96">
+        <div className="glass p-4 md:p-6 rounded-2xl h-[350px] md:h-96">
           <h3 className="text-lg font-semibold mb-6">Leads by Source</h3>
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
@@ -113,7 +118,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="glass p-6 rounded-2xl h-96">
+      <div className="glass p-4 md:p-6 rounded-2xl h-[350px] md:h-96">
         <h3 className="text-lg font-semibold mb-6">Monthly Growth</h3>
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={stats.monthlyGrowth}>
@@ -126,10 +131,10 @@ const Dashboard = () => {
             <CartesianGrid strokeDasharray="3 3" stroke={gridColor} vertical={false} />
             <XAxis 
               dataKey={(d) => `${d._id.month}/${d._id.year}`} 
-              tick={{ fill: chartTextColor }}
+              tick={{ fill: chartTextColor, fontSize: 12 }}
               axisLine={{ stroke: gridColor }}
             />
-            <YAxis tick={{ fill: chartTextColor }} axisLine={{ stroke: gridColor }} />
+            <YAxis tick={{ fill: chartTextColor, fontSize: 12 }} axisLine={{ stroke: gridColor }} />
             <Tooltip 
               contentStyle={{ 
                 backgroundColor: isDarkMode ? '#1e293b' : '#ffffff',
