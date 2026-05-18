@@ -5,7 +5,7 @@ import {
   PieChart, Pie, Cell, ComposedChart, Legend, Line
 } from 'recharts';
 import { useThemeStore } from '../store/useThemeStore';
-import { CHART_CONFIG, STATUS_COLORS } from '../constants/theme.constants';
+import { CHART_CONFIG } from '../constants/theme.constants';
 
 const Analytics = () => {
   const { isDarkMode } = useThemeStore();
@@ -80,7 +80,7 @@ const Analytics = () => {
                 nameKey="_id"
                 stroke="none"
               >
-                {stats.sourceStats.map((_, index: number) => (
+                {stats.sourceStats.map((_entry: any, index: number) => (
                   <Cell key={`cell-${index}`} fill={['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'][index % 5]} />
                 ))}
               </Pie>
