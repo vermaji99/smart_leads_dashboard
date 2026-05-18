@@ -34,10 +34,10 @@ const Dashboard = () => {
   const gridColor = isDarkMode ? '#334155' : '#e2e8f0';
 
   const statCards = [
-    { label: 'Total Leads', value: stats.totalLeads, icon: Users, color: 'text-blue-500', bg: 'bg-blue-50 dark:bg-blue-900/20' },
-    { label: 'Qualified Leads', value: stats.statusStats.find((s) => s._id === 'Qualified')?.count || 0, icon: UserCheck, color: 'text-green-500', bg: 'bg-green-50 dark:bg-green-900/20' },
-    { label: 'Lost Leads', value: stats.statusStats.find((s) => s._id === 'Lost')?.count || 0, icon: UserX, color: 'text-red-500', bg: 'bg-red-50 dark:bg-red-900/20' },
-    { label: 'Conversion Rate', value: `${stats.conversionRate}%`, icon: TrendingUp, color: 'text-amber-500', bg: 'bg-amber-50 dark:bg-amber-900/20' },
+    { label: 'Total Leads', value: stats.totalLeads, icon: Users, color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-500/10' },
+    { label: 'Qualified Leads', value: stats.statusStats.find((s) => s._id === 'Qualified')?.count || 0, icon: UserCheck, color: 'text-green-600 dark:text-green-400', bg: 'bg-green-50 dark:bg-green-500/10' },
+    { label: 'Lost Leads', value: stats.statusStats.find((s) => s._id === 'Lost')?.count || 0, icon: UserX, color: 'text-red-600 dark:text-red-400', bg: 'bg-red-50 dark:bg-red-500/10' },
+    { label: 'Conversion Rate', value: `${stats.conversionRate}%`, icon: TrendingUp, color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-500/10' },
   ];
 
   return (
@@ -53,9 +53,9 @@ const Dashboard = () => {
             <div className={clsx('w-10 h-10 md:w-12 md:h-12 rounded-2xl flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-300 flex-shrink-0', stat.bg)}>
               <stat.icon className={stat.color} size={24} />
             </div>
-            <div className="min-w-0">
-              <p className="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-wider truncate">{stat.label}</p>
-              <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white truncate">{stat.value}</h3>
+            <div className="min-w-0 flex-1">
+              <p className="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-wider">{stat.label}</p>
+              <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white leading-none mt-1">{stat.value}</h3>
             </div>
           </div>
         ))}

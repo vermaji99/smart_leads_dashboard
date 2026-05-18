@@ -31,8 +31,8 @@
     @apply bg-slate-50 text-slate-900 transition-colors duration-300 selection:bg-primary-100 selection:text-primary-900;
   }
   
-  .dark body {
-    @apply bg-slate-950 text-slate-100 selection:bg-primary-900/30 selection:text-primary-200;
+  html.dark body {
+    @apply bg-[#020617] text-slate-100 selection:bg-primary-900/30 selection:text-primary-200;
   }
 }
 
@@ -41,15 +41,16 @@
     @apply bg-white/95 backdrop-blur-xl border border-white shadow-xl shadow-slate-200/50;
   }
   
-  .dark .glass {
-    @apply bg-slate-900/90 backdrop-blur-xl border-slate-800 shadow-2xl shadow-black/40;
+  html.dark .glass {
+    @apply bg-slate-900/50 backdrop-blur-2xl border-white/5 shadow-2xl shadow-black/40;
   }
 
   .input-field {
     @apply w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 focus:bg-white transition-all outline-none shadow-sm;
   }
 
-  .dark .input-field {
+  .dark .input-field,
+  html.dark .input-field {
     @apply bg-slate-800/50 border-slate-700 text-slate-100 placeholder:text-slate-500 focus:bg-slate-800 focus:border-primary-500 focus:ring-primary-500/20 shadow-none;
   }
 
@@ -57,7 +58,8 @@
     @apply block text-sm font-semibold mb-1.5 text-slate-600 tracking-tight;
   }
 
-  .dark .label-text {
+  .dark .label-text,
+  html.dark .label-text {
     @apply text-slate-400;
   }
 
@@ -69,7 +71,8 @@
     @apply bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-semibold py-2.5 px-6 rounded-xl shadow-sm hover:shadow-md transition-all active:bg-slate-100;
   }
 
-  .dark .btn-secondary {
+  .dark .btn-secondary,
+  html.dark .btn-secondary {
     @apply bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700 active:bg-slate-900;
   }
 }
