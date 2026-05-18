@@ -20,22 +20,22 @@ const Sidebar = () => {
   ];
 
   const SidebarContent = () => (
-    <>
-      <div className="p-8">
+    <div className="flex flex-col h-full bg-white dark:bg-[#111827] border-r border-slate-200 dark:border-slate-800">
+      <div className="p-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-primary-600 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/20">
               <BarChart3 className="text-white w-6 h-6" />
             </div>
-            <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-primary-400">Smart Leads</h1>
+            <h1 className="text-xl font-bold text-slate-900 dark:text-white">Smart Leads</h1>
           </div>
-          <button onClick={() => setIsOpen(false)} className="lg:hidden p-2 text-slate-500">
+          <button onClick={() => setIsOpen(false)} className="lg:hidden p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
             <X size={24} />
           </button>
         </div>
       </div>
 
-      <nav className="flex-1 px-4 space-y-1">
+      <nav className="flex-1 px-4 py-4 space-y-1.5 overflow-y-auto">
         {navItems.map((item) => (
           <NavLink
             key={item.to}
@@ -43,37 +43,35 @@ const Sidebar = () => {
             onClick={() => setIsOpen(false)}
             className={({ isActive }) =>
               clsx(
-                'flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200',
-                isActive
-                  ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/30'
-                  : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary-600 dark:hover:text-primary-400'
+                'sidebar-item',
+                isActive ? 'sidebar-item-active' : 'sidebar-item-inactive'
               )
             }
           >
-            <item.icon size={20} />
-            <span className="font-semibold">{item.label}</span>
+            <item.icon size={20} className={clsx("transition-colors", "text-current")} />
+            <span>{item.label}</span>
           </NavLink>
         ))}
       </nav>
 
-      <div className="p-4 border-t dark:border-slate-800 space-y-1">
+      <div className="p-4 mt-auto border-t border-slate-200 dark:border-slate-800 space-y-1.5">
         <button
           onClick={toggleDarkMode}
-          className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-200"
+          className="w-full sidebar-item sidebar-item-inactive"
         >
           {isDarkMode ? <Sun size={20} className="text-amber-500" /> : <Moon size={20} className="text-primary-600" />}
-          <span className="font-semibold">{isDarkMode ? 'Light Mode' : 'Dark Mode'}</span>
+          <span>{isDarkMode ? 'Light Mode' : 'Dark Mode'}</span>
         </button>
         
         <button
           onClick={logout}
-          className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10 transition-all duration-200"
+          className="w-full sidebar-item text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10"
         >
           <LogOut size={20} />
-          <span className="font-semibold">Logout</span>
+          <span>Logout</span>
         </button>
       </div>
-    </>
+    </div>
   );
 
   return (
@@ -82,14 +80,14 @@ const Sidebar = () => {
       <div className="lg:hidden fixed top-4 left-4 z-[60]">
         <button
           onClick={() => setIsOpen(true)}
-          className="p-3 glass rounded-xl shadow-lg text-primary-600"
+          className="p-2.5 bg-white dark:bg-[#1F2937] border border-slate-200 dark:border-slate-700 rounded-xl shadow-lg text-primary-600"
         >
           <Menu size={24} />
         </button>
       </div>
 
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex w-64 h-screen glass border-r flex-col fixed left-0 top-0 z-50">
+      <aside className="hidden lg:flex w-64 h-screen flex-col fixed left-0 top-0 z-50">
         <SidebarContent />
       </aside>
 
@@ -102,14 +100,14 @@ const Sidebar = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="lg:hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[70]"
+              className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[70] lg:hidden"
             />
             <motion.aside
               initial={{ x: '-100%' }}
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="lg:hidden fixed left-0 top-0 bottom-0 w-72 glass border-r flex flex-col z-[80] shadow-2xl"
+              className="fixed left-0 top-0 h-screen w-72 z-[80] lg:hidden"
             >
               <SidebarContent />
             </motion.aside>

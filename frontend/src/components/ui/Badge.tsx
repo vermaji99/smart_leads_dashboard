@@ -1,3 +1,5 @@
+import { clsx } from 'clsx';
+
 interface BadgeProps {
   children: React.ReactNode;
   variant?: 'blue' | 'amber' | 'green' | 'red' | 'slate';
@@ -6,15 +8,19 @@ interface BadgeProps {
 
 export const Badge = ({ children, variant = 'slate', className }: BadgeProps) => {
   const variants = {
-    blue: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
-    amber: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
-    green: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400',
-    red: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
-    slate: 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400',
+    blue: 'bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20',
+    amber: 'bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20',
+    green: 'bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20',
+    red: 'bg-red-50 text-red-600 border-red-100 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20',
+    slate: 'bg-slate-50 text-slate-600 border-slate-100 dark:bg-slate-500/10 dark:text-slate-400 dark:border-slate-500/20',
   };
 
   return (
-    <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold tracking-wide uppercase ${variants[variant]} ${className}`}>
+    <span className={clsx(
+      "px-2.5 py-1 rounded-lg text-[10px] font-bold tracking-wider uppercase border",
+      variants[variant],
+      className
+    )}>
       {children}
     </span>
   );
