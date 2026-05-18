@@ -18,7 +18,7 @@ services:
     ports:
       - "80:80"
     environment:
-      - VITE_API_URL=http://localhost:5001/api/v1
+      - VITE_API_URL=https://smart-leads-dashboard-backend-suxv.onrender.com/api/v1
     depends_on:
       - backend
 

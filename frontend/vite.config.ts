@@ -11,7 +11,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:5001',
+        target: 'https://smart-leads-dashboard-backend-suxv.onrender.com',
         changeOrigin: true,
       },
     },

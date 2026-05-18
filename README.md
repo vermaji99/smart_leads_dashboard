@@ -54,7 +54,7 @@ A production-grade Lead Management Dashboard built with the MERN stack using ent
    ```bash
    docker-compose up --build
    ```
-3. Access the frontend at `http://localhost` and backend at `http://localhost:5001`.
+3. Access the frontend at `http://localhost` and backend at `https://smart-leads-dashboard-backend-suxv.onrender.com`.
 
 ### Local Development Setup
 
@@ -68,6 +68,15 @@ A production-grade Lead Management Dashboard built with the MERN stack using ent
 1. Navigate to the `frontend` folder: `cd frontend`.
 2. Install dependencies: `npm install`.
 3. Start the development server: `npm run dev`.
+
+### Vercel Deployment Steps (Frontend)
+1. **Import Project**: Link your GitHub repo in Vercel.
+2. **Configure Project**:
+   - **Framework Preset**: `Vite`
+   - **Root Directory**: `frontend`
+3. **Environment Variables**:
+   - `VITE_API_URL`: `https://smart-leads-dashboard-backend-suxv.onrender.com/api/v1`
+4. **Deploy**: Click deploy and Vercel will handle the rest.
 
 ## 📖 API Documentation
 
